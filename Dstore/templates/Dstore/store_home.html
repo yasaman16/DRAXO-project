@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>فروشگاه DRAXO</title>
+    <style>
+        body { background: #0b0c10; color: #fff; font-family: Tahoma; padding: 20px; }
+        .grid { display: flex; gap: 20px; flex-wrap: wrap; }
+        .card { background: #151720; padding: 20px; border-radius: 10px; border: 1px solid #8b5cf6; width: 200px; text-align: center; text-decoration: none; color: white; transition: 0.3s; }
+        .card:hover { box-shadow: 0 0 20px #8b5cf6; transform: translateY(-5px); }
+    </style>
+</head>
+<body>
+    <h1>محصولات فروشگاه</h1>
+    <div class="grid">
+        {% for cat in categories %}
+            <a href="{% url 'Dstore:category_detail' cat.slug %}" class="card">
+                <h3>{{ cat.name }}</h3>
+                <p>مشاهده محصولات</p>
+            </a>
+        {% empty %}
+            <p>هیچ دسته‌بندی وجود ندارد. از پنل ادمین اضافه کنید.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

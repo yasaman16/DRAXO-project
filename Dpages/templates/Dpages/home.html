@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>DRAXO | فروشگاه گیمینگ</title>
+    <style>
+        /* استایل‌های پایه و تم تیره */
+        body { background-color: #0b0c10; color: #fff; font-family: Tahoma, sans-serif; margin: 0; padding: 0; }
+        
+        /* هدر سایت */
+        .header { background: #151720; padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
+        .logo { color: #00f3ff; font-size: 24px; font-weight: bold; text-shadow: 0 0 10px #00f3ff; text-decoration: none; }
+        .nav-links a { color: #aaa; text-decoration: none; margin: 0 15px; transition: 0.3s; }
+        .nav-links a:hover { color: #fff; }
+        
+        /* دکمه‌های کاربر */
+        .auth-buttons { display: flex; align-items: center; gap: 15px; }
+        .btn-login { color: #00f3ff; text-decoration: none; }
+        .btn-signup { background: #8b5cf6; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none; }
+        .btn-logout { background: #ff007f; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none; }
+        
+        /* پیام‌های سیستم */
+        .messages { text-align: center; padding: 10px; background: #151720; }
+        .success { color: #00ff00; border: 1px solid #00ff00; padding: 5px 10px; border-radius: 5px; }
+
+        /* بخش اصلی (Hero) */
+        .hero { text-align: center; padding: 100px 20px; background: linear-gradient(rgba(11,12,16,0.8), rgba(11,12,16,0.9)), url('https://w.wallhaven.cc/full/wq/wallhaven-wq7g1x.jpg') center/cover; }
+        .hero h1 { font-size: 50px; color: #ff007f; text-shadow: 0 0 20px #ff007f; margin-bottom: 10px; }
+        .hero p { font-size: 18px; color: #ccc; margin-bottom: 30px; }
+        
+        /* دکمه فروشگاه */
+        .btn-shop { background: linear-gradient(90deg, #8b5cf6, #ff007f); color: white; padding: 12px 30px; text-decoration: none; border-radius: 30px; font-size: 18px; font-weight: bold; box-shadow: 0 0 15px rgba(255,0,127,0.5); }
+        
+        /* بخش بازی‌ها */
+        .games-section { padding: 50px; text-align: center; }
+        .games-section h2 { font-size: 30px; color: #00f3ff; margin-bottom: 40px; }
+        .games-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .game-card { background: #151720; border: 1px solid #333; border-radius: 15px; width: 250px; padding: 20px; transition: 0.3s; }
+        .game-card:hover { border-color: #ff007f; box-shadow: 0 0 20px rgba(255,0,127,0.3); transform: translateY(-5px); }
+        .game-card h3 { margin: 0 0 10px 0; }
+        .game-card a { color: #00f3ff; text-decoration: none; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a href="/" class="logo">DRAXO</a>
+        
+        <nav class="nav-links">
+            <a href="/">خانه</a>
+            <a href="/store/">فروشگاه</a>
+            <a href="#">پشتیبانی</a>
+        </nav>
+
+        <div class="auth-buttons">
+            {% if user.is_authenticated %}
+                <span style="color: #fff;">سلام، {{ user.username }} عزیز!</span>
+                <a href="{% url 'Daccount:logout' %}" class="btn-logout">خروج از حساب</a>
+            {% else %}
+                <a href="{% url 'Daccount:login' %}" class="btn-login">ورود</a>
+                <a href="{% url 'Daccount:signup' %}" class="btn-signup">ثبت‌نام</a>
+            {% endif %}
+        </div>
+    </header>
+
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <span class="success">{{ message }}</span>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <section class="hero">
+        <h1>به DRAXO خوش آمدید</h1>
+        <p>مقصد نهایی گیمرها برای خرید بازی، گیفت کارت و ارز دیجیتال</p>
+        <a href="/store/" class="btn-shop">مشاهده فروشگاه</a>
+    </section>
+    <!-- بخش بازی‌ها -->
+    <section class="games-section">
+        <h2>محبوب‌ترین بازی‌ها</h2>
+        <div class="games-grid">
+            <div class="game-card">
+                <h3>Call of Duty</h3>
+                <a href="/store/">خرید سی پی و پاس ←</a>
+            </div>
+            <div class="game-card">
+                <h3>Clash of Clans</h3>
+                <a href="/store/">خرید جم و آفر ←</a>
+            </div>
+            <div class="game-card">
+                <h3>PUBG Mobile</h3>
+                <a href="/store/">خرید یوسی ←</a>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

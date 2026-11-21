@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>سبد خرید شما</title>
+    <style>
+        body { background: #0b0c10; color: #fff; font-family: Tahoma; padding: 20px; }
+        .container { max-width: 800px; margin: auto; background: #151720; padding: 30px; border-radius: 10px; border: 1px solid #333; }
+        h1 { color: #00f3ff; text-align: center; }
+        .cart-item { display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 15px 0; }
+        .total { text-align: left; font-size: 20px; color: #ff007f; margin-top: 20px; }
+        .btn { padding: 10px 20px; border-radius: 5px; text-decoration: none; color: white; }
+        .btn-remove { background: #ff4d4d; }
+        .btn-checkout { background: #8b5cf6; display: inline-block; margin-top: 20px;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>سبد خرید شما</h1>
+        
+        {% if order and order.items.all %}
+            {% for item in order.items.all %}
+                <div class="cart-item">
+                    <div>
+                        <h3>{{ item.product.title }}</h3>
+                        <p>تعداد: {{ item.quantity }} | قیمت واحد: {{ item.price }} تومان</p>
+                    </div>
+                    <div>
+                        <p>جمع: {{ item.get_cost }} تومان</p>
+                        <a href="{% url 'Dorder:remove_from_cart' item.id %}" class="btn btn-remove">حذف</a>
+                    </div>
+                </div>
+            {% endfor %}
+            
+            <div class="total">
+                مبلغ کل: {{ order.get_total_price }} تومان
+            </div>
+            
+            <div style="text-align: left;">
+                <a href="#" class="btn btn-checkout">ادامه فرآیند خرید و پرداخت</a>
+            </div>
+        {% else %}
+            <p style="text-align: center; color: #aaa;">سبد خرید شما خالی است.</p>
+        {% endif %}
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="/store/" style="color: #00f3ff;">بازگشت به فروشگاه</a>
+        </div>
+    </div>
+</body>
+</html>

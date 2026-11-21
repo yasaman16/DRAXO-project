@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>ثبت‌نام در DRAXO</title>
+    <style>
+        body { background-color: #0b0c10; color: #fff; font-family: Tahoma, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .box { background: rgba(255, 255, 255, 0.05); padding: 40px; border-radius: 15px; border: 1px solid #ec4899; box-shadow: 0 0 20px rgba(236, 72, 153, 0.3); width: 350px; text-align: center; }
+        h2 { color: #ec4899; text-shadow: 0 0 10px #ec4899; margin-bottom: 20px; }
+        input { width: 100%; padding: 10px; margin: 10px 0; background: #151720; border: 1px solid #333; color: #fff; border-radius: 5px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: linear-gradient(90deg, #ec4899, #8b5cf6); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 15px; }
+        .helptext { font-size: 12px; color: #888; display: block; text-align: right; margin-bottom: 10px;}
+        .errorlist { color: #ff4d4d; list-style: none; padding: 0; font-size: 13px; text-align: right; margin: 0 0 10px 0;}
+        .messages { list-style: none; padding: 0; margin-bottom: 20px; }
+        .messages li { padding: 10px; border-radius: 5px; margin-bottom: 10px; font-size: 14px; }
+        .error { background: rgba(255, 0, 0, 0.2); border: 1px solid #ff4d4d; color: #ff4d4d; }
+        .success { background: rgba(0, 255, 0, 0.2); border: 1px solid #00ff00; color: #00ff00; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>ساخت حساب جدید</h2>
+
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            
+            {{ form.as_p }}
+            
+            <button type="submit">ثبت‌نام</button>
+        </form>
+        
+        <p style="margin-top: 15px; font-size: 14px;">حساب دارید؟ <a href="{% url 'Daccount:login' %}" style="color: #00f3ff;">وارد شوید</a></p>
+    </div>
+</body>
+</html>
