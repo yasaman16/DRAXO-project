@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>پروفایل کاربری | DRAXO</title>
+    <style>
+        body { background-color: #0b0c10; color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+        .navbar { background-color: #151720; padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2d3748; }
+        .brand { color: #00f3ff; font-size: 24px; font-weight: 800; text-decoration: none; }
+        .nav-actions { display: flex; align-items: center; gap: 20px; }
+        .btn-logout { background-color: #ff007f; color: #ffffff; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 14px; transition: 0.3s; }
+        .btn-logout:hover { background-color: #d9006c; }
+        
+        .main-container { max-width: 900px; margin: 50px auto; padding: 0 20px; }
+        .card { background-color: #151720; border: 1px solid #2d3748; border-radius: 12px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        .card-title { color: #8b5cf6; font-size: 20px; margin-top: 0; margin-bottom: 20px; border-bottom: 1px solid #2d3748; padding-bottom: 10px; }
+        
+        .user-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .info-item { color: #cbd5e0; font-size: 15px; }
+        .info-value { color: #ffffff; font-weight: bold; }
+        
+        .orders-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .orders-table th { text-align: right; padding: 15px 10px; color: #a0aec0; font-size: 14px; border-bottom: 1px solid #2d3748; }
+        .orders-table td { padding: 15px 10px; border-bottom: 1px solid #2d3748; color: #e2e8f0; font-size: 15px; }
+        .orders-table tr:last-child td { border-bottom: none; }
+        
+        .status { padding: 5px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block; }
+        .status.pending { background-color: rgba(236, 201, 75, 0.1); color: #ecc94b; border: 1px solid #ecc94b; }
+        .status.completed { background-color: rgba(72, 187, 120, 0.1); color: #48bb78; border: 1px solid #48bb78; }
+        .status.canceled { background-color: rgba(245, 101, 101, 0.1); color: #f56565; border: 1px solid #f56565; }
+        
+        .empty-state { text-align: center; color: #718096; padding: 40px 0; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="brand">DRAXO</a>
+        <div class="nav-actions">
+            <span style="color: #a0aec0;">{{ user.username }}</span>
+            <a href="{% url 'Daccount:logout' %}" class="btn-logout">خروج از حساب</a>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <div class="card">
+            <h2 class="card-title">اطلاعات حساب</h2>
+            <div class="user-info-grid">
+                <div class="info-item">نام کاربری: <span class="info-value">{{ user.username }}</span></div>
+                <div class="info-item">شماره تماس: <span class="info-value">{{ user.phone_number|default:"ثبت نشده" }}</span></div>
+                <div class="info-item">نوع کاربر: <span class="info-value">{{ user.get_user_type_display }}</span></div>
+                <div class="info-item">تاریخ عضویت: <span class="info-value">{{ user.date_joined|date:"Y/m/d" }}</span></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">تاریخچه سفارشات</h2>
+            {% if orders %}
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>شماره سفارش</th>
+                            <th>تاریخ ثبت</th>
+                            <th>مبلغ کل</th>
+                            <th>وضعیت</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                            <tr>
+                                <td>#{{ order.id }}</td>
+                                <td>{{ order.created_at|date:"Y/m/d - H:i" }}</td>
+                                <td>{{ order.get_total_price }} تومان</td>
+                                <td>
+                                    {% if order.status == 'pending' %}
+                                        <span class="status pending">در انتظار پرداخت</span>
+                                    {% elif order.status == 'completed' %}
+                                        <span class="status completed">تکمیل شده</span>
+                                    {% else %}
+                                        <span class="status canceled">لغو شده</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="empty-state">هنوز سفارشی ثبت نکرده‌اید.</div>
+            {% endif %}
+        </div>
+    </main>
+</body>
+</html>

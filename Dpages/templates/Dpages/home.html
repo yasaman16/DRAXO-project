@@ -54,8 +54,10 @@
 
         <div class="auth-buttons">
             {% if user.is_authenticated %}
-                <span style="color: #fff;">سلام، {{ user.username }} عزیز!</span>
-                <a href="{% url 'Daccount:logout' %}" class="btn-logout">خروج از حساب</a>
+            <a href="{% url 'Daccount:profile' %}" style="color: #ffffff; text-decoration: none; margin-left: 15px;">
+                {{ user.username }}
+            </a>
+            <a href="{% url 'Daccount:logout' %}" class="btn-logout">خروج از حساب</a>
             {% else %}
                 <a href="{% url 'Daccount:login' %}" class="btn-login">ورود</a>
                 <a href="{% url 'Daccount:signup' %}" class="btn-signup">ثبت‌نام</a>

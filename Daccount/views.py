@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from .forms import SignUpForm, LoginForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from Dorder.models import Order
 
 def signup_view(request):
     if request.method == 'POST':
@@ -30,3 +32,11 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('Dpages:home')
+
+@login_required
+def profile_view(request):
+    orders = Order.objects.filter(user=request.user).exclude(status='cart').order_by('-created_at')
+    context = {
+        'orders': orders
+    }
+    return render(request, 'Daccount/profile.html', context)
