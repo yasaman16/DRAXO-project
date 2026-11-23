@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ post.title }} | DRAXO</title>
+    <style>
+        body { background-color: #0b0c10; color: #fff; font-family: Tahoma, sans-serif; margin: 0; padding: 0; }
+        .header { background: #151720; padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
+        .logo { color: #00f3ff; font-size: 24px; font-weight: bold; text-decoration: none; text-shadow: 0 0 10px #00f3ff; }
+        .container { max-width: 800px; margin: 40px auto; background: #151720; padding: 40px; border-radius: 10px; border: 1px solid #333; }
+        .post-title { color: #ff007f; font-size: 32px; margin-top: 0; text-shadow: 0 0 10px rgba(255,0,127,0.5); }
+        .post-meta { color: #888; font-size: 14px; border-bottom: 1px solid #333; padding-bottom: 15px; margin-bottom: 20px; }
+        .post-image { width: 100%; border-radius: 10px; margin-bottom: 20px; }
+        .post-body { line-height: 1.8; color: #ddd; font-size: 16px; }
+        .back-btn { display: inline-block; margin-top: 30px; color: #00f3ff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="/" class="logo">DRAXO</a>
+        <a href="/blog/" style="color: #fff; text-decoration: none;">بازگشت به وبلاگ</a>
+    </header>
+
+    <div class="container">
+        <h1 class="post-title">{{ post.title }}</h1>
+        <div class="post-meta">
+            نویسنده: {{ post.author.username }} | تاریخ انتشار: {{ post.created_at|date:"Y/m/d" }}
+        </div>
+
+        {% if post.image %}
+            <img src="{{ post.image.url }}" class="post-image" alt="{{ post.title }}">
+        {% endif %}
+
+        <div class="post-body">
+            {{ post.content|linebreaks }}
+        </div>
+
+        <a href="{% url 'Dblog:post_list' %}" class="back-btn">← بازگشت به لیست اخبار</a>
+    </div>
+</body>
+</html>
