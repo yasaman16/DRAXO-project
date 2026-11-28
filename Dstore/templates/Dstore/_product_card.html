@@ -1,0 +1,6 @@
+<div class="product-card">
+    {% if product.image %}<img src="{{ product.image.url }}" alt="" width="100%" style="border-radius: 5px;">{% endif %}
+    <h3>{{ product.title }}</h3>
+    <div class="price">{{ product.price }} تومان</div>
+    <a href="{% url 'Dorder:add_to_cart' product.id %}" class="btn">افزودن به سبد</a>
+</div>

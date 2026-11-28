@@ -2,6 +2,7 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>محصولات {{ category.name }}</title>
     <style>
         body { background: #0b0c10; color: #fff; font-family: Tahoma; padding: 20px; }
@@ -17,61 +18,15 @@
 <body>
     <h1>بخش {{ category.name }}</h1>
 
-    {% if gems %}
-        <h2 class="section-title">💎 ارز درون بازی (جم / سی پی)</h2>
+    {% for title, products in product_sections %}
+        <h2 class="section-title">{{ title }}</h2>
         <div class="grid">
-            {% for product in gems %}
-                <div class="product-card">
-                    {% if product.image %}<img src="{{ product.image.url }}" width="100%" style="border-radius: 5px;">{% endif %}
-                    <h4>{{ product.title }}</h4>
-                    <div class="price">{{ product.price }} تومان</div>
-                    <a href="{% url 'Dorder:add_to_cart' product.id %}" class="btn">افزودن به سبد</a>
-                </div>
+            {% for product in products %}
+                {% include "Dstore/_product_card.html" with product=product only %}
             {% endfor %}
         </div>
-    {% endif %}
-
-    {% if passes %}
-        <h2 class="section-title">🎫 بتل پس / پاس</h2>
-        <div class="grid">
-            {% for product in passes %}
-                <div class="product-card">
-                    {% if product.image %}<img src="{{ product.image.url }}" width="100%" style="border-radius: 5px;">{% endif %}
-                    <h4>{{ product.title }}</h4>
-                    <div class="price">{{ product.price }} تومان</div>
-                    <a href="{% url 'Dorder:add_to_cart' product.id %}" class="btn">افزودن به سبد</a>
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-
-    {% if offers %}
-        <h2 class="section-title">🔥 آفرها و پیشنهادهای ویژه</h2>
-        <div class="grid">
-            {% for product in offers %}
-                <div class="product-card">
-                    {% if product.image %}<img src="{{ product.image.url }}" width="100%" style="border-radius: 5px;">{% endif %}
-                    <h4>{{ product.title }}</h4>
-                    <div class="price">{{ product.price }} تومان</div>
-                    <a href="{% url 'Dorder:add_to_cart' product.id %}" class="btn">افزودن به سبد</a>
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-
-    {% if giftcards %}
-        <h2 class="section-title">🎁 گیفت کارت‌ها</h2>
-        <div class="grid">
-            {% for product in giftcards %}
-                <div class="product-card">
-                    {% if product.image %}<img src="{{ product.image.url }}" width="100%" style="border-radius: 5px;">{% endif %}
-                    <h4>{{ product.title }}</h4>
-                    <div class="price">{{ product.price }} تومان</div>
-                    <a href="{% url 'Dorder:add_to_cart' product.id %}" class="btn">افزودن به سبد</a>
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-
+    {% empty %}
+        <p>?? ??? ???? ?????? ?? ??? ???? ????? ????.</p>
+    {% endfor %}
 </body>
 </html>
