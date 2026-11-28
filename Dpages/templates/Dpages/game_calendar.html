@@ -1,0 +1,21 @@
+{% extends 'Dpages/base.html' %}
+{% block title %}تقویم بازی‌ها | DRAXO SHOP{% endblock %}
+{% block content %}
+<div class="shell">
+    <section class="portal-intro">
+        <h1>تقویم بازی‌ها</h1>
+        <p>بازی‌ات را انتخاب کن تا محصولات و وضعیت رویدادهای آن را ببینی.</p>
+    </section>
+    <ul class="game-grid portal-grid">
+        {% for game in games %}
+            <li class="game game-{{ game.style }}">
+                <a class="game-link" href="{% url 'Dpages:game_detail' game.slug %}">
+                    <h2 lang="en" dir="ltr">{{ game.name }}</h2>
+                    <p>{{ game.services }}</p>
+                    <span class="game-arrow" aria-hidden="true">↙</span>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
