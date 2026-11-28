@@ -1,0 +1,68 @@
+{% load static %}
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="فروشگاه محصولات دیجیتال بازی‌های موبایلی DRAXO SHOP">
+    <title>{% block title %}DRAXO SHOP{% endblock %}</title>
+    <link rel="icon" href="{% static 'Dpages/logo.png' %}">
+    <link rel="stylesheet" href="{% static 'Dpages/home.css' %}">
+    <script defer src="{% static 'Dpages/site.js' %}"></script>
+    {% block styles %}{% endblock %}
+</head>
+<body>
+    <a class="skip-link" href="#main">رفتن به محتوای اصلی</a>
+    <header class="site-header">
+        <div class="shell header-inner">
+            <a class="wordmark" href="{% url 'Dpages:home' %}" dir="ltr"><img class="brand-emblem" src="{% static 'Dpages/logo.png' %}" alt="">DRAXO <span>SHOP</span></a>
+            <nav class="site-nav" aria-label="منوی اصلی">
+                <a href="{% url 'Dpages:home' %}">صفحه اصلی</a>
+                <a href="{% url 'Dstore:store_home' %}">محصولات</a>
+                <a href="{% url 'Dpages:home' %}#games">بازی‌ها</a>
+                <a href="{% url 'Dpages:home' %}#events">رویدادها</a>
+                <a href="{% url 'Dpages:game_calendar' %}">تقویم بازی‌ها</a>
+                <a href="{% url 'Dblog:post_list' %}">مقالات</a>
+            </nav>
+            <form class="header-search" role="search" action="{% url 'Dpages:home' %}#popular">
+                <input type="search" name="q" aria-label="جست‌وجوی ارز بازی" placeholder="جست‌وجو در DRAXO SHOP…" value="{{ currency_query }}">
+                <button type="submit" aria-label="جست‌وجو">⌕</button>
+            </form>
+            <div class="utility-nav">
+                <button type="button" id="theme-toggle" aria-pressed="false">حالت روز</button>
+                {% if soundtrack %}
+                    <button type="button" id="music-toggle" class="music-toggle" data-track="{{ soundtrack }}" aria-label="موسیقی پس‌زمینه" aria-pressed="false">
+                        <span class="music-symbol" aria-hidden="true">♫</span>
+                    </button>
+                    {% if soundtrack == 'home' %}
+                        <audio id="home-soundtrack" src="{% static 'Dpages/bg-music.mp3' %}" preload="none" loop></audio>
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div class="account-nav">
+                <a href="{% url 'Dorder:cart_detail' %}">سبد خرید</a>
+                {% if user.is_authenticated %}
+                    <a class="account-link" href="{% url 'Daccount:profile' %}">حساب من</a>
+                    <a href="{% url 'Daccount:logout' %}">خروج</a>
+                {% else %}
+                    <a href="{% url 'Daccount:login' %}">ورود</a>
+                    <a class="account-link" href="{% url 'Daccount:signup' %}">ثبت‌نام</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+    {% if messages %}
+        <ul class="shell messages" aria-live="polite">
+            {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+        </ul>
+    {% endif %}
+    <main id="main">{% block content %}{% endblock %}</main>
+    <footer class="site-footer">
+        <div class="shell footer-inner">
+            <a class="wordmark" href="{% url 'Dpages:home' %}" dir="ltr">DRAXO <span>SHOP</span></a>
+            <a href="{% url 'Dstore:store_home' %}">فروشگاه</a>
+            <a href="{% url 'Dblog:post_list' %}">وبلاگ</a>
+        </div>
+    </footer>
+</body>
+</html>

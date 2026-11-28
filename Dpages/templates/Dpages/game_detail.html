@@ -1,0 +1,82 @@
+{% extends 'Dpages/base.html' %}
+{% load static %}
+{% block title %}{{ game.name }} | DRAXO SHOP{% endblock %}
+{% block styles %}<link rel="stylesheet" href="{% static 'Dpages/game-detail.css' %}">{% endblock %}
+{% block content %}
+<div class="shell game-hub game-{{ game.style }}">
+    <aside class="hub-menu">
+        <a class="text-link" href="{% url 'Dpages:game_calendar' %}">‹ همه بازی‌ها</a>
+        <strong lang="en" dir="ltr">{{ game.name }}</strong>
+        <nav aria-label="بخش‌های بازی">
+            <a href="#game-products">محصولات</a>
+            <a href="#game-events">تقویم و رویدادها</a>
+            <a href="#game-articles">اخبار و مقالات</a>
+        </nav>
+    </aside>
+    <div class="hub-main">
+        <section class="hub-hero">
+            <img src="{% static 'Dpages/art/' %}{% if game.style == 'cod' %}cod-banner{% else %}{{ game.style }}{% endif %}.webp" alt="" fetchpriority="high">
+            <div class="hub-hero-copy">
+                {% if game.style == 'cod' %}
+                    <p class="hub-kicker" lang="en">Call of Duty: Mobile</p>
+                    <h1>دنیای تاکتیک،<br><span>نبرد و هیجان</span></h1>
+                {% else %}
+                    <h1 lang="en">{{ game.name }}</h1>
+                {% endif %}
+                <p>{{ game.services }}</p>
+                <a class="button button-primary" href="#game-products">دیدن محصولات</a>
+            </div>
+        </section>
+        <section class="hub-panel" id="game-products">
+            <div class="section-head">
+                <h2>محصولات و خدمات</h2>
+                {% if category %}<a class="text-link" href="{% url 'Dstore:category_detail' category.slug %}">همه محصولات ←</a>{% endif %}
+            </div>
+            {% if products %}
+                <ul class="hub-products">
+                    {% for product in products %}
+                        <li><a href="{% url 'Dstore:category_detail' product.category.slug %}">
+                            {% if product.image %}<img src="{{ product.image.url }}" alt="" loading="lazy">
+                            {% elif product.product_type == 'currency' %}<img src="{% static 'Dpages/art/' %}currency-{{ game.style }}.webp" alt="" loading="lazy">{% endif %}
+                            <strong>{{ product.title }}</strong>
+                            <small>{{ product.price }} تومان</small>
+                        </a></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="hub-empty-stock">
+                    <img src="{% static 'Dpages/art/' %}currency-{{ game.style }}.webp" alt="" loading="lazy">
+                    <div><strong>{{ game.services }}</strong><p>فعلاً محصول فعالی برای این بازی ثبت نشده است.</p></div>
+                </div>
+            {% endif %}
+        </section>
+        <div class="hub-bottom">
+            <section class="hub-panel" id="game-events">
+                <h2>تقویم و رویدادها</h2>
+                <div class="hub-calendar">
+                    <table>
+                        <caption>{{ current_month }} میلادی</caption>
+                        <thead><tr><th scope="col">ش</th><th scope="col">ی</th><th scope="col">د</th><th scope="col">س</th><th scope="col">چ</th><th scope="col">پ</th><th scope="col">ج</th></tr></thead>
+                        <tbody>{% for week in month_weeks %}<tr>{% for day in week %}<td{% if day == today_number %} aria-current="date"{% endif %}>{{ day }}</td>{% endfor %}</tr>{% endfor %}</tbody>
+                    </table>
+                    <div class="hub-events">
+                        {% if game.style == 'cod' %}<img src="{% static 'Dpages/art/cod-events.webp' %}" alt="" loading="lazy">{% endif %}
+                        <p>فعلاً رویدادی ثبت نشده است.</p>
+                    </div>
+                </div>
+            </section>
+            <section class="hub-panel" id="game-articles">
+                <div class="section-head"><h2>اخبار و مقالات مرتبط</h2><a class="text-link" href="{% url 'Dblog:post_list' %}">وبلاگ ←</a></div>
+                <ul class="hub-posts">
+                    {% for post in posts %}
+                        <li><a href="{% url 'Dblog:post_detail' post.slug %}">
+                            {% if post.image %}<img src="{{ post.image.url }}" alt="" loading="lazy">{% endif %}
+                            <span><strong>{{ post.title }}</strong><small>{{ post.summary|truncatechars:85 }}</small></span>
+                        </a></li>
+                    {% empty %}<li>هنوز مقاله‌ای برای این بازی منتشر نشده است.</li>{% endfor %}
+                </ul>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}
